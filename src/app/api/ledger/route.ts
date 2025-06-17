@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { embedding } from '@/lib/langchainClient';
 import { categoryChain } from '@/chains/categoryChain';
+import { log } from 'console';
 
 export async function POST(request: NextRequest) {
   const { description, amount, type } = await request.json();
@@ -11,13 +12,14 @@ export async function POST(request: NextRequest) {
   const [descEmbedding] = await embedding.embedDocuments([description]);
 
   // 2. 用 langchain LLM Chain 做分類
-  const categoryResult = await categoryChain.call({ description });
-  const category = categoryResult.text.trim();
+  const categoryResult = await categoryChain.invoke({ description });
+  console.log('categoryChain Result:', categoryResult);
+  const category = categoryResult.content;
 
   // 3. 寫入資料庫
   const { data, error } = await supabase
     .from('ledger')
-    .insert([{ description, amount, type: ledgerType, category, embedding: descEmbedding }]);
+    .insert([{ description, amount, type: ledgerType, category: category.toString(), embedding: descEmbedding }]);
 
   if (error) return NextResponse.json({ error }, { status: 500 });
 
