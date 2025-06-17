@@ -1,0 +1,12 @@
+import { NextRequest, NextResponse } from "next/server";
+import { routerChain } from "@/chains/routerChain";
+
+export async function POST(request: NextRequest) {
+  const { question } = await request.json();
+  try {
+    const result = await routerChain(question);
+    return NextResponse.json(result);
+  } catch (e) {
+    return NextResponse.json({ error: e.message || String(e) }, { status: 500 });
+  }
+}
