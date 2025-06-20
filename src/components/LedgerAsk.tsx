@@ -50,38 +50,7 @@ export default function LedgerAsk() {
 
       {response && (
         <div className="mt-6">
-          {response.type === 'sql' ? (
-            <div>
-              <div className="font-semibold mb-2">AI 回答：</div>
-              <div className="bg-gray-100 p-3 rounded">{response.result}</div>
-              {response.sql && (
-                <details className="mt-2 text-xs">
-                  <summary className="cursor-pointer text-gray-500">顯示 SQL 運算步驟</summary>
-                  <pre className="whitespace-pre-wrap bg-gray-50 p-2 rounded">{JSON.stringify(response.sql, null, 2)}</pre>
-                </details>
-              )}
-            </div>
-          ) : (
-            <div>
-              <div className="font-semibold mb-2">相似紀錄：</div>
-              <ul className="space-y-2">
-                {Array.isArray(response.result) && response.result.length > 0 ? (
-                  response.result.map((item: any) => (
-                    <li key={item.id} className="p-3 border rounded shadow-sm bg-gray-50">
-                      <div className="font-bold">{item.description}</div>
-                      <div className="text-sm text-gray-600">
-                        {item.category} | {item.amount} | {item.type}
-                      </div>
-                      <div className="text-xs text-gray-400">{new Date(item.created_at).toLocaleString()}</div>
-                      <div className="text-xs text-gray-400">相似度：{(item.similarity * 100).toFixed(1)}%</div>
-                    </li>
-                  ))
-                ) : (
-                  <div className="text-gray-400">沒有找到相似紀錄</div>
-                )}
-              </ul>
-            </div>
-          )}
+          {response.result.summary}
         </div>
       )}
     </div>

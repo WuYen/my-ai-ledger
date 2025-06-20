@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   console.log("question is", question)
   try {
     const result = await routerChain(question);
-    return NextResponse.json({ result});
+    return NextResponse.json({ result });
   } catch (e) {
     return NextResponse.json({ error: e.message || String(e) }, { status: 500 });
   }
