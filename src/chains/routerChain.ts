@@ -1,5 +1,5 @@
 import { llm } from "@/lib/langchainClient";
-import { sqlAgentChain, embeddingSummaryChain } from "./sqlChain";
+import { sqlAgentChain, embeddingSummaryChain, fastSqlChain } from "./sqlChain";
 
 export const routerChain = async (question: string) => {
     const prompt = `
@@ -15,8 +15,9 @@ export const routerChain = async (question: string) => {
     const decision = res.content;
     console.log(`🔍 判斷結果: ${decision}`);
     if (decision === "SQL查詢") {
-        const result = await sqlAgentChain(question);
-        return { type: "sql", summary: result.summary };
+        //const result = await sqlAgentChain(question);
+        const result = await fastSqlChain.invoke({ question })
+        return { type: "sql", summary: result.summary.content, data: result.data };
     } else {
         const result = await embeddingSummaryChain.invoke(question);
         console.log('🔗 embeddingSummaryChain 最終結果:', result);
