@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import LedgerList from '@/components/LedgerList';
 import LedgerAsk from '@/components/LedgerAsk';
+import { addLedger } from '@/lib/useLedger';
 
 export default function Home() {
   const [description, setDescription] = useState('');
@@ -10,13 +11,15 @@ export default function Home() {
   const [category, setCategory] = useState('');
 
   const handleAdd = async () => {
-    const res = await fetch('/api/ledger', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ description, amount: Number(amount), category }),
+    await addLedger({
+      description,
+      amount: Number(amount),
+      category,
+      type: 'expense',
     });
-    const data = await res.json();
-    alert(JSON.stringify(data));
+    setDescription('');
+    setAmount('');
+    setCategory('');
   };
 
   return (

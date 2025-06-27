@@ -53,3 +53,7 @@ AI智能記帳系統｜AI-Powered Smart Ledger
    ```bash
    git clone https://github.com/你的帳號/my-ai-ledger.git
    cd my-ai-ledger
+
+## 📦 離線模式 (Offline Mode)
+- 從 IndexedDB 讀取資料，在背景與 API 同步
+- 未同步的新增加紀錄會自動上傳
