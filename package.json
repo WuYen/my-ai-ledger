@@ -18,7 +18,9 @@
     "pg": "^8.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typeorm": "^0.3.24"
+    "typeorm": "^0.3.24",
+    "dexie": "^3.2.4",
+    "next-pwa": "^7.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

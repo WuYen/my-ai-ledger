@@ -1,14 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
-
-type LedgerItem = {
-  id: number;
-  created_at: string;
-  description: string;
-  amount: number;
-  category: string;
-  type: string; // income/expense
-};
+import { useState } from 'react';
+import { useLedger } from '@/lib/useLedger';
+import type { LedgerRecord } from '@/lib/localDb';
 
 function formatMonth(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -21,21 +14,7 @@ export default function LedgerList() {
     return formatMonth(now); // e.g. "2024-06"
   });
 
-  const [records, setRecords] = useState<LedgerItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // 查詢資料
-  useEffect(() => {
-    setLoading(true);
-    // 傳給 API 的參數，取該月的第一天
-    const [year, month] = currentMonth.split('-').map(Number);
-    const dateParam = `${year}-${String(month).padStart(2, '0')}-01`;
-
-    fetch(`/api/ledger?date=${dateParam}`)
-      .then(res => res.json())
-      .then(res => setRecords(res.data || []))
-      .finally(() => setLoading(false));
-  }, [currentMonth]);
+  const { records, loading } = useLedger(currentMonth);
 
   // 切換月份
   function handleMonthChange(diff: number) {

@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   try {
     const result = await routerChain(question);
     return NextResponse.json({ result });
-  } catch (e) {
+  } catch (e: any) {
     return NextResponse.json({ error: e.message || String(e) }, { status: 500 });
   }
 }

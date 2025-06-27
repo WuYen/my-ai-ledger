@@ -53,3 +53,7 @@ AI智能記帳系統｜AI-Powered Smart Ledger
    ```bash
    git clone https://github.com/你的帳號/my-ai-ledger.git
    cd my-ai-ledger
+
+## \uD83D\uDCE6 \u96E2\u7DDA\u6A21\u5F0F (Offline Mode)
+- \u5F9E IndexedDB \u8B80\u53D6\u8CC7\u6599\uFF0C\u5728\u80CC\u666F\u8207 API \u540C\u6B65
+- \u672A\u540C\u6B65\u7684\u65B0\u589E\u7D00\u9304\u6703\u81EA\u52D5\u4E0A\u50B3
