@@ -95,9 +95,13 @@ export async function unsyncedRecords(): Promise<LedgerRecord[]> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME);
-    const index = tx.objectStore(STORE_NAME).index('synced');
-    const req = index.getAll(IDBKeyRange.only(false));
-    req.onsuccess = () => resolve(req.result as LedgerRecord[]);
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.getAll();
+    req.onsuccess = () => {
+      const all = req.result as LedgerRecord[];
+      const res = all.filter(r => !r.synced); // 篩選出未同步 (synced = false 或 undefined)
+      resolve(res);
+    };
     req.onerror = () => reject(req.error);
   });
 }

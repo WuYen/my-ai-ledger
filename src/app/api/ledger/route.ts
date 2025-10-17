@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
   // 查詢本月所有紀錄
   const { data, error } = await supabase
     .from('ledger')
-    .select('*')
+    .select('id, description, amount, category, type, created_at')
     .gte('created_at', startOfMonth)
     .lte('created_at', endOfMonth)
     .order('created_at', { ascending: false });
