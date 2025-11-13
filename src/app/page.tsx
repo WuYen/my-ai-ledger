@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import LedgerList from '@/components/LedgerList';
 import LedgerAsk from '@/components/LedgerAsk';
-import { addLedger } from '@/lib/useLedger';
+import { addLedger } from '@/hooks/useLedger';
 
 export default function Home() {
   const [description, setDescription] = useState('');

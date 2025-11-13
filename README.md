@@ -57,3 +57,47 @@ AI智能記帳系統｜AI-Powered Smart Ledger
 ## 📦 離線模式 (Offline Mode)
 - 從 IndexedDB 讀取資料，在背景與 API 同步
 - 未同步的新增加紀錄會自動上傳
+
+## structure
+src/
+│
+├── app/                     ← Next.js App Router (UI + routing)
+│   ├── page.tsx            ← 首頁 UI
+│   ├── layout.tsx
+│   │
+│   ├── ledger/             ← 專門給 Ledger 的頁面
+│   │   └── page.tsx        ← Ledger 主頁（你現在 page.tsx 可以搬這裡）
+│   │
+│   ├── api/                ← 所有 server-side API endpoint
+│   │   ├── ledger/
+│   │   │   └── route.ts    ← 處理 CRUD
+│   │   └── ask/
+│   │       └── route.ts    ← AI 查帳
+│
+├── components/              ← 所有純 UI React Components
+│   ├── ledger/
+│   │   ├── LedgerList.tsx
+│   │   ├── LedgerAsk.tsx
+│   │   └── LedgerInput.tsx
+│   └── common/
+│       └── Button.tsx
+│
+├── hooks/                   ← 自定義 React hooks
+│   ├── useLedger.ts
+│   └── useLocalDb.ts
+│
+├── domain/                  ← 你的核心 business logic
+│   └── ledger/
+│       ├── ledger.schema.ts
+│       ├── ledger.service.ts
+│       ├── ledger.repository.ts
+│       └── index.ts         ← optional, 用來 export
+│
+├── chains/                  ← LangChain chains（AI prompt, agent）
+│   ├── categoryChain.ts
+│   └── askChain.ts
+│
+└── lib/                     ← infra tools（db client, langchain client…）
+    ├── supabaseClient.ts
+    ├── langchainClient.ts
+    └── localDb.ts

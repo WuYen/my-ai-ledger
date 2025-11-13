@@ -7,7 +7,7 @@ import {
   recordsByMonth,
   unsyncedRecords,
   removeOld,
-} from './localDb';
+} from '../lib/localDb';
 
 export function useLedger(month: string) {
   const [records, setRecords] = useState<LedgerRecord[]>([]);

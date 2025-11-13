@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useLedger } from '@/lib/useLedger';
+import { useLedger } from '@/hooks/useLedger';
 import type { LedgerRecord } from '@/lib/localDb';
 
 function formatMonth(date: Date) {
