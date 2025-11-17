@@ -30,3 +30,41 @@ export const ledgerRepository = {
     return data;
   },
 };
+
+
+export async function getHourlyCategoryStats(hour: number) {
+  const lower = Math.max(0, hour - 1);
+  const upper = Math.min(23, hour + 1);
+
+  const { data, error } = await supabase
+    .from("ledger")
+    .select(`
+      category,
+      created_at
+    `)
+    .eq("type", "expense")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  const freqMap: Record<string, { count: number; hours: number[] }> = {};
+
+  data.forEach((item) => {
+    const h = new Date(item.created_at).getHours();
+    if (h >= lower && h <= upper) {
+      if (!freqMap[item.category]) {
+        freqMap[item.category] = { count: 0, hours: [] };
+      }
+      freqMap[item.category].count++;
+      freqMap[item.category].hours.push(h);
+    }
+  });
+
+  return Object.entries(freqMap)
+    .map(([category, { count, hours }]) => ({
+      category,
+      freq: count,
+      avgHour: hours.reduce((a, b) => a + b, 0) / hours.length,
+    }))
+    .sort((a, b) => b.freq - a.freq);
+}
